@@ -75,7 +75,9 @@ def obrazek():
               font=font2, fill="white")
     draw.text(((200 - w) / 2, (970 - h) / 2), str(mapy[11]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
-    draw.text(((200 - w) / 2, (1040 - h) / 2), str(mapy[12]).replace("[", "").replace("'", "").replace("]", ""),
+    draw.text(((200 - w) / 2, (1050 - h) / 2), str(mapy[12]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((200 - w) / 2, (1130 - h) / 2), str(mapy[13]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
 
     draw.text(((650 - w) / 2, (75 - h) / 2), "Liczba gier", font=font, fill="white")
@@ -103,7 +105,9 @@ def obrazek():
               font=font2, fill="white")
     draw.text(((780 - w) / 2, (970 - h) / 2), str(liczby[11]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
-    draw.text(((780 - w) / 2, (1040 - h) / 2), str(liczby[12]).replace("[", "").replace("'", "").replace("]", ""),
+    draw.text(((780 - w) / 2, (1050 - h) / 2), str(liczby[12]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((780 - w) / 2, (1130 - h) / 2), str(liczby[13]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
 
     draw.text(((1050 - w) / 2, (75 - h) / 2), "Wygrane", font=font, fill="white")
@@ -131,7 +135,9 @@ def obrazek():
               font=font2, fill="white")
     draw.text(((1160 - w) / 2, (970 - h) / 2), str(winy[11]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
-    draw.text(((1160 - w) / 2, (1040 - h) / 2), str(winy[12]).replace("[", "").replace("'", "").replace("]", ""),
+    draw.text(((1160 - w) / 2, (1050 - h) / 2), str(winy[12]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((1160 - w) / 2, (1130 - h) / 2), str(winy[13]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
 
     draw.text(((1400 - w) / 2, (75 - h) / 2), "Przegrane", font=font, fill="white")
@@ -159,7 +165,9 @@ def obrazek():
               font=font2, fill="white")
     draw.text(((1510 - w) / 2, (970 - h) / 2), str(lose[11]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
-    draw.text(((1510 - w) / 2, (1040 - h) / 2), str(lose[12]).replace("[", "").replace("'", "").replace("]", ""),
+    draw.text(((1510 - w) / 2, (1050 - h) / 2), str(lose[12]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((1510 - w) / 2, (1130 - h) / 2), str(lose[13]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
 
     draw.text(((1800 - w) / 2, (75 - h) / 2), "Remisy", font=font, fill="white")
@@ -187,7 +195,9 @@ def obrazek():
               font=font2, fill="white")
     draw.text(((1900 - w) / 2, (970 - h) / 2), str(drawy[11]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
-    draw.text(((1900 - w) / 2, (1040 - h) / 2), str(drawy[12]).replace("[", "").replace("'", "").replace("]", ""),
+    draw.text(((1900 - w) / 2, (1050 - h) / 2), str(drawy[12]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((1900 - w) / 2, (1130 - h) / 2), str(drawy[13]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
 
     draw.text(((2150 - w) / 2, (75 - h) / 2), "Win/Lose", font=font, fill="white")
@@ -227,8 +237,11 @@ def obrazek():
     draw.text(((2240 - w) / 2, (970 - h) / 2),
               str(winy_lose[11]).replace("[", "").replace("'", "").replace("]", "") + " %",
               font=font2, fill="white")
-    draw.text(((2240 - w) / 2, (1040 - h) / 2),
+    draw.text(((2240 - w) / 2, (1050 - h) / 2),
               (str(winy_lose[12]).replace("[", "").replace("'", "").replace("]", "") + " %"),
+              font=font2, fill="white")
+    draw.text(((2240 - w) / 2, (1130 - h) / 2),
+              (str(winy_lose[13]).replace("[", "").replace("'", "").replace("]", "") + " %"),
               font=font2, fill="white")
 
     img.save("statystyki.png")
