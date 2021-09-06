@@ -235,3 +235,80 @@ def obrazek():
 
     conn.commit()
     conn.close()
+
+
+
+def statystyki_graczy():
+    conn = sqlite3.connect("mapy.db")
+    c = conn.cursor()
+
+    img = Image.open(r'staty_graczy_podstawa.png')
+    font = ImageFont.truetype("arial.ttf", 30)
+    font2 = ImageFont.truetype("arial.ttf", 20)
+
+    c.execute("SELECT nick FROM wynik")
+    nick_gracza = c.fetchall()
+    c.execute("SELECT czterykille FROM wynik")
+    fourk = c.fetchall()
+    c.execute("SELECT ace FROM wynik")
+    ace = c.fetchall()
+
+    nazwy_graczy = []
+    fourky = []
+    acey = []
+
+
+    for nazwa in nick_gracza:
+        x = str(nazwa).replace("(", "").replace(",", "").replace(")", "").replace("'", "")
+        nazwy_graczy.append(x)
+
+    for fourkej in fourk:
+        y = str(fourkej).replace("(", "").replace(",", "").replace(")", "").replace("'", "")
+        fourky.append(y)
+
+    for ejsik in ace:
+        z = str(ejsik).replace("(", "").replace(",", "").replace(")", "").replace("'", "")
+        acey.append(z)
+
+    w, h = font.getsize(str(nazwy_graczy[:1]))
+    draw = ImageDraw.Draw(img)
+    draw.text(((200 - w) / 2, (56 - h) / 2), "Nick", font=font, fill="white")
+    draw.text(((200 - w) / 2, (197 - h) / 2), str(nazwy_graczy[0]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((200 - w) / 2, (300 - h) / 2), str(nazwy_graczy[1]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((200 - w) / 2, (400 - h) / 2), str(nazwy_graczy[2]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((200 - w) / 2, (500 - h) / 2), str(nazwy_graczy[3]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((200 - w) / 2, (600 - h) / 2), str(nazwy_graczy[4]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+
+    draw.text(((605 - w) / 2, (65 - h) / 2), "4K", font=font, fill="white")
+    draw.text(((630 - w) / 2, (197 - h) / 2), str(fourky[0]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((630 - w) / 2, (297 - h) / 2), str(fourky[1]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((630 - w) / 2, (397 - h) / 2), str(fourky[2]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((630 - w) / 2, (497 - h) / 2), str(fourky[3]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((630 - w) / 2, (597 - h) / 2), str(fourky[4]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+
+    draw.text(((1000 - w) / 2, (65 - h) / 2), "ACE", font=font, fill="white")
+    draw.text(((1050 - w) / 2, (195 - h) / 2), str(acey[0]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((1050 - w) / 2, (295 - h) / 2), str(acey[1]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((1050 - w) / 2, (395 - h) / 2), str(acey[2]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((1050 - w) / 2, (495 - h) / 2), str(acey[3]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((1050 - w) / 2, (595 - h) / 2), str(acey[4]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    img.save("staty_graczy_gotowe.png")
+
+    conn.commit()
+    conn.close()
+

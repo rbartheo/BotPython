@@ -1,7 +1,7 @@
 import random
 import sqlite3
 import discord
-from Robienie_Obrazka import obrazek
+from Robienie_Obrazka import obrazek, statystyki_graczy
 from win_lose_ratio import obliczanie_win_lose
 
 
@@ -42,7 +42,8 @@ async def on_message(message):
     if message.content.startswith("^komendy"):
         await message.channel.send("Dostępne komendy to: ^meczmejker, ^staty (już działa!!!), ^premiera, ^mirage, " +
                                    "^nuke, ^dust, ^overpass, ^vertigo, ^ancient, ^train, ^cache, ^mocha, ^office, " +
-                                   "^agency, ^inferno, ^prmwin, ^prmlose, ^prmdraw, ^usunwin, ^usunlose, ^usundraw")
+                                   "^agency, ^inferno, ^prmwin, ^prmlose, ^prmdraw, ^usunwin, ^usunlose, ^usundraw" +
+                                   ", ^dodajstaty, ^usunstaty, ^statygraczy")
         await message.channel.send("<:PeepoGlad:815276556863275028>")
 
     if message.content.startswith('^meczmejker'):
@@ -56,11 +57,106 @@ async def on_message(message):
         await x.add_reaction("✏️")
         c.execute("""UPDATE mapy SET liczba=liczba+1 WHERE id_mapy=?""", (num,))
 
-    if message.content.startswith("^staty"):
+    if message.content == "^staty":
         obrazek()
         with open("statystyki.png", "rb") as f:
             picture = discord.File(f)
             await message.channel.send(file=picture)
+
+    if message.content == "^statygraczy":
+        statystyki_graczy()
+        with open("staty_graczy_gotowe.png", "rb") as f:
+            picture = discord.File(f)
+            await message.channel.send(file=picture)
+
+
+
+    if message.content.startswith("^usunstaty"):
+        await message.channel.send("Co usunąć ace czy 4k????")
+
+        def check(m):
+            return message.author == m.author
+
+        msg = await client.wait_for('message', check=check)
+        if msg.content == "ace":
+            await message.channel.send("U kogo usunąć ace???")
+            def check(m):
+                return message.author == m.author
+
+            msg = await client.wait_for('message', check=check)
+            if msg.content == "wak":
+                c.execute("UPDATE wynik SET ace=ace-1 WHERE id_wyniku=1 AND ace>0")
+                conn.commit()
+                conn.close()
+                await message.channel.send("Usunięto ace <:proste:674360939134320640>")
+
+            elif msg.content == "marko":
+                c.execute("UPDATE wynik SET ace=ace-1 WHERE id_wyniku=2 AND ace>0")
+                conn.commit()
+                conn.close()
+                await message.channel.send("Usunięto ace <:proste:674360939134320640>")
+
+            elif msg.content == "dawid":
+                c.execute("UPDATE wynik SET ace=ace-1 WHERE id_wyniku=3 AND ace>0")
+                conn.commit()
+                conn.close()
+                await message.channel.send("Usunięto  ace <:proste:674360939134320640>")
+
+            elif msg.content == "jujan":
+                c.execute("UPDATE wynik SET ace=ace-1 WHERE id_wyniku=4 AND ace>0")
+                conn.commit()
+                conn.close()
+                await message.channel.send("Usunięto ace <:proste:674360939134320640>")
+
+            elif msg.content == "michał":
+                c.execute("UPDATE wynik SET ace=ace-1 WHERE id_wyniku=4 AND ace>0")
+                conn.commit()
+                conn.close()
+                await message.channel.send("Usunięto 4k <:proste:674360939134320640>")
+            else:
+                print("afasff")
+
+        elif msg.content == "4k":
+            await message.channel.send("U kogo usunąć 4k???")
+            def check(m):
+                return message.author == m.author
+
+            msg = await client.wait_for('message', check=check)
+
+            if msg.content == "wak":
+                c.execute("UPDATE wynik SET czterykille=czterykille-1 WHERE id_wyniku=1 AND czterykille>0")
+                conn.commit()
+                conn.close()
+                await message.channel.send("Usunięto 4k <:proste:674360939134320640>")
+
+            elif msg.content == "marko":
+                c.execute("UPDATE wynik SET czterykille=czterykille-1 WHERE id_wyniku=2 AND czterykille>0")
+                conn.commit()
+                conn.close()
+                await message.channel.send("Usunięto 4k <:proste:674360939134320640>")
+
+            elif msg.content == "dawid":
+                c.execute("UPDATE wynik SET czterykille=czterykille-1 WHERE id_wyniku=3 AND czterykille>0")
+                conn.commit()
+                conn.close()
+                await message.channel.send("Usunięto 4k <:proste:674360939134320640>")
+
+            elif msg.content == "jujan":
+                c.execute("UPDATE wynik SET czterykille=czterykille-1 WHERE id_wyniku=4 AND czterykille>0")
+                conn.commit()
+                conn.close()
+                await message.channel.send("Usunięto 4k <:proste:674360939134320640>")
+
+            elif msg.content == "michał":
+                c.execute("UPDATE wynik SET czterykille=czterykille-1 WHERE id_wyniku=5 AND czterykille>0")
+                conn.commit()
+                conn.close()
+                await message.channel.send("Usunięto 4k <:proste:674360939134320640>")
+            else:
+                print("afasff")
+        else:
+            print("eo")
+
 
     if message.content.startswith("^usunlose"):
         await message.channel.send("Z jakiej mapy usunąć lose:")
@@ -162,6 +258,103 @@ async def on_message(message):
             await message.channel.send("Usunięto przegraną z inferno <:proste:674360939134320640>")
         else:
             print("poop")
+
+
+    if message.content.startswith("^dodajstaty"):
+        await message.channel.send("Kto zrobił ACE/4k ?")
+
+        def check(m):
+            return message.author == m.author
+
+        msg = await client.wait_for('message', check=check)
+        if msg.content == ("Wak").lower():
+            await message.channel.send("ace czy 4k ?")
+            msg = await client.wait_for('message', check=check)
+            if msg.content == "ace":
+                c.execute("UPDATE wynik SET ace=ace+1 WHERE id_wyniku=1")
+                await message.channel.send("Brawo wak ace :O  <:pogchamp4:809889459944161290>")
+                conn.commit()
+                conn.close()
+            elif msg.content == "4k":
+                c.execute("UPDATE wynik SET czterykille=czterykille+1 WHERE id_wyniku=1")
+                await message.channel.send("Brawo wak 4k  ;)  <:pogchamp4:809889459944161290>")
+                conn.commit()
+                conn.close()
+            else:
+                await message.channel.send("majnkraft")
+
+        elif msg.content == ("Marko").lower():
+            await message.channel.send("ace czy 4k ?")
+            msg = await client.wait_for('message', check=check)
+            if msg.content == "ace":
+                c.execute("UPDATE wynik SET ace=ace+1 WHERE id_wyniku=2")
+                await message.channel.send("Brawo marko ace :O  <:pogchamp4:809889459944161290>")
+                conn.commit()
+                conn.close()
+            elif msg.content == "4k":
+                c.execute("UPDATE wynik SET czterykille=czterykille+1 WHERE id_wyniku=2")
+                await message.channel.send("Brawo marko 4k  ;)  <:pogchamp4:809889459944161290>")
+                conn.commit()
+                conn.close()
+            else:
+                await message.channel.send("majnkraft")
+
+        elif msg.content == ("Dawid").lower():
+            await message.channel.send("ace czy 4k ?")
+            msg = await client.wait_for('message', check=check)
+            if msg.content == "ace":
+                c.execute("UPDATE wynik SET ace=ace+1 WHERE id_wyniku=3")
+                await message.channel.send("Brawo dawid ace :O  <:pogchamp4:809889459944161290>")
+                conn.commit()
+                conn.close()
+            elif msg.content == "4k":
+                c.execute("UPDATE wynik SET czterykille=czterykille+1 WHERE id_wyniku=3")
+                await message.channel.send("Brawo dawid 4k  ;)  <:pogchamp4:809889459944161290>")
+                conn.commit()
+                conn.close()
+            else:
+                await message.channel.send("majnkraft")
+
+        elif msg.content == ("Jujan").lower():
+            await message.channel.send("ace czy 4k ?")
+            msg = await client.wait_for('message', check=check)
+            if msg.content == "ace":
+                c.execute("UPDATE wynik SET ace=ace+1 WHERE id_wyniku=4")
+                await message.channel.send("Brawo jujen ace :O  <:pogchamp4:809889459944161290>")
+                conn.commit()
+                conn.close()
+            elif msg.content == "4k":
+                c.execute("UPDATE wynik SET czterykille=czterykille+1 WHERE id_wyniku=4")
+                await message.channel.send("Brawo jujen 4k  ;)  <:pogchamp4:809889459944161290>")
+                conn.commit()
+                conn.close()
+            else:
+                await message.channel.send("majnkraft")
+
+        elif msg.content == ("Michał").lower():
+            await message.channel.send("ace czy 4k ?")
+            msg = await client.wait_for('message', check=check)
+            if msg.content == "ace":
+                c.execute("UPDATE wynik SET ace=ace+1 WHERE id_wyniku=5")
+                await message.channel.send("Brawo miszello ace :O  <:pogchamp4:809889459944161290>")
+                conn.commit()
+                conn.close()
+            elif msg.content == "4k":
+                c.execute("UPDATE wynik SET czterykille=czterykille+1 WHERE id_wyniku=5")
+                await message.channel.send("Brawo miszello 4k  ;)  <:pogchamp4:809889459944161290>")
+                conn.commit()
+                conn.close()
+            else:
+                await message.channel.send("majnkraft")
+        else:
+            print("popopo")
+
+
+    if message.content.startswith("^michal"):
+        with open("michal.png", "rb") as f:
+            picture = discord.File(f)
+            await message.channel.send(file=picture)
+
 
     if message.content.startswith("^usunwin"):
         await message.channel.send("Z jakiej mapy usunąć wina:")
@@ -339,6 +532,8 @@ async def on_message(message):
             + ", tryb gralismy: " + prm + " " + booba + " <:PeepoGlad:815276556863275028>")
         await message.channel.send("Jaka mapa grana wariacie: ^mirage, ^nuke, ^overpass, ^dust, ^inferno, ^vertigo " +
                                    "^ancient")
+        conn.commit()
+        conn.close()
 
     if message.content.startswith("^prmwin"):
         c.execute("UPDATE mapy SET win=win+1 WHERE id_mapy=1")
@@ -592,7 +787,7 @@ async def on_message(message):
                     conn.close()
                     await mir.delete()
                     await message.channel.send("Wygranko: Mirage " + "<:proste:674360939134320640>")
-                    obliczanie_win_lose(1)
+                    obliczanie_win_lose(2)
                 elif message.content.startswith('^nuke'):
                     c.execute("UPDATE mapy SET win=win+1 WHERE id_mapy=3")
                     conn.commit()
@@ -776,58 +971,86 @@ async def on_message(message):
                     c.execute("""UPDATE mapy SET draw=draw+1 WHERE id_mapy=?""", (num,))
                     await x.delete()
                     await message.channel.send("Remis " + "<:Omegalul:428861885111205888>")
+                    conn.commit()
+                    conn.close()
                 elif message.content.startswith('^premiera'):
                     c.execute("UPDATE mapy SET draw=draw+1 WHERE id_mapy=1")
                     await prm.delete()
                     await message.channel.send("Remis: Premiera " + "<:Omegalul:428861885111205888>")
+                    conn.commit()
+                    conn.close()
                 elif message.content.startswith('^mirage'):
                     c.execute("UPDATE mapy SET draw=draw+1 WHERE id_mapy=2")
                     await mir.delete()
                     await message.channel.send("Remis: Mirage " + "<:Omegalul:428861885111205888>")
+                    conn.commit()
+                    conn.close()
                 elif message.content.startswith('^nuke'):
                     c.execute("UPDATE mapy SET draw=draw+1 WHERE id_mapy=3")
                     await nke.delete()
                     await message.channel.send("Remis: Nuke " + "<:Omegalul:428861885111205888>")
+                    conn.commit()
+                    conn.close()
                 elif message.content.startswith('^dust'):
                     c.execute("UPDATE mapy SET draw=draw+1 WHERE id_mapy=4")
                     await dd.delete()
                     await message.channel.send("Remis: Dust " + "<:Omegalul:428861885111205888>")
+                    conn.commit()
+                    conn.close()
                 elif message.content.startswith('^overpass'):
                     c.execute("UPDATE mapy SET draw=draw+1 WHERE id_mapy=5")
                     await ovp.delete()
                     await message.channel.send("Remis: Overpass " + "<:Omegalul:428861885111205888>")
+                    conn.commit()
+                    conn.close()
                 elif message.content.startswith('^vertigo'):
                     c.execute("UPDATE mapy SET draw=draw+1 WHERE id_mapy=6")
                     await vrt.delete()
                     await message.channel.send("Remis: Vertigo " + "<:Omegalul:428861885111205888>")
+                    conn.commit()
+                    conn.close()
                 elif message.content.startswith('^ancient'):
                     c.execute("UPDATE mapy SET draw=draw+1 WHERE id_mapy=7")
                     await anc.delete()
                     await message.channel.send("Remis: Ancient " + "<:Omegalul:428861885111205888>")
+                    conn.commit()
+                    conn.close()
                 elif message.content.startswith('^train'):
                     c.execute("UPDATE mapy SET draw=draw+1 WHERE id_mapy=8")
                     await trn.delete()
                     await message.channel.send("Remis: Train " + "<:Omegalul:428861885111205888>")
+                    conn.commit()
+                    conn.close()
                 elif message.content.startswith('^cache'):
                     c.execute("UPDATE mapy SET draw=draw+1 WHERE id_mapy=9")
                     await cch.delete()
                     await message.channel.send("Remis: Cache " + "<:Omegalul:428861885111205888>")
+                    conn.commit()
+                    conn.close()
                 elif message.content.startswith('^mocha'):
                     c.execute("UPDATE mapy SET draw=draw+1 WHERE id_mapy=10")
                     await moc.delete()
                     await message.channel.send("Remis: Mocha " + "<:Omegalul:428861885111205888>")
+                    conn.commit()
+                    conn.close()
                 elif message.content.startswith('^office'):
                     c.execute("UPDATE mapy SET draw=draw+1 WHERE id_mapy=11")
                     await off.delete()
                     await message.channel.send("Remis: Office " + "<:Omegalul:428861885111205888>")
+                    conn.commit()
+                    conn.close()
                 elif message.content.startswith('^agency'):
                     c.execute("UPDATE mapy SET draw=draw+1 WHERE id_mapy=12")
                     await agc.delete()
                     await message.channel.send("Remis: Agency " + "<:Omegalul:428861885111205888>")
+                    conn.commit()
+                    conn.close()
                 elif message.content.startswith('^inferno'):
                     c.execute("UPDATE mapy SET draw=draw+1 WHERE id_mapy=13")
                     await inf.delete()
                     await message.channel.send("Remis: Inferno " + "<:Omegalul:428861885111205888>")
+                    conn.commit()
+                    conn.close()
                 else:
                     print("oddychac")
 
