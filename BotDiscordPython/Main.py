@@ -69,9 +69,14 @@ async def on_message(message):
             picture = discord.File(f)
             await message.channel.send(file=picture)
 
+    if message.content == "^odswiez" or message.content == "^odśwież" or message.content == "^odświez" or message.content == "^odswież":
+        for x in range(1, 15):
+            obliczanie_win_lose(x)
+        await message.channel.send("Odświeżono win/lose ratio  <:pogchamp4:809889459944161290>")
+
+
     if message.content.startswith("^usunstaty"):
         await message.channel.send("Co usunąć ace czy 4k????")
-
         def check(m):
             return message.author == m.author
 
@@ -83,35 +88,35 @@ async def on_message(message):
                 return message.author == m.author
 
             msg = await client.wait_for('message', check=check)
-            if msg.content == "wak":
+            if msg.content.lower() == "wak" or msg.content.lower() == "vaq":
                 c.execute("UPDATE wynik SET ace=ace-1 WHERE id_wyniku=1 AND ace>0")
                 conn.commit()
                 conn.close()
                 await message.channel.send("Usunięto ace <:proste:674360939134320640>")
 
-            elif msg.content == "marko":
+            elif msg.content.lower() == "marko" or msg.content.lower() == "makro" or msg.content.lower() == "marek":
                 c.execute("UPDATE wynik SET ace=ace-1 WHERE id_wyniku=2 AND ace>0")
                 conn.commit()
                 conn.close()
                 await message.channel.send("Usunięto ace <:proste:674360939134320640>")
 
-            elif msg.content == "dawid":
+            elif msg.content.lower() == "dawid":
                 c.execute("UPDATE wynik SET ace=ace-1 WHERE id_wyniku=3 AND ace>0")
                 conn.commit()
                 conn.close()
                 await message.channel.send("Usunięto  ace <:proste:674360939134320640>")
 
-            elif msg.content == "jujan":
+            elif msg.content.lower() == "jujan" or msg.content.lower() == "radek":
                 c.execute("UPDATE wynik SET ace=ace-1 WHERE id_wyniku=4 AND ace>0")
                 conn.commit()
                 conn.close()
                 await message.channel.send("Usunięto ace <:proste:674360939134320640>")
 
-            elif msg.content == "michał":
-                c.execute("UPDATE wynik SET ace=ace-1 WHERE id_wyniku=4 AND ace>0")
+            elif msg.content.lower() == "michał" or msg.content.lower() == "michal" or msg.content.lower() == "shir":
+                c.execute("UPDATE wynik SET ace=ace-1 WHERE id_wyniku=5 AND ace>0")
                 conn.commit()
                 conn.close()
-                await message.channel.send("Usunięto 4k <:proste:674360939134320640>")
+                await message.channel.send("Usunięto ace <:proste:674360939134320640>")
             else:
                 print("error ace")
 
@@ -123,31 +128,31 @@ async def on_message(message):
 
             msg = await client.wait_for('message', check=check)
 
-            if msg.content == "wak":
+            if msg.content.lower() == "wak" or msg.content.lower() == "vaq":
                 c.execute("UPDATE wynik SET czterykille=czterykille-1 WHERE id_wyniku=1 AND czterykille>0")
                 conn.commit()
                 conn.close()
                 await message.channel.send("Usunięto 4k <:proste:674360939134320640>")
 
-            elif msg.content == "marko":
+            elif msg.content.lower() == "marko" or msg.content.lower() == "makro" or msg.content.lower() == "marek":
                 c.execute("UPDATE wynik SET czterykille=czterykille-1 WHERE id_wyniku=2 AND czterykille>0")
                 conn.commit()
                 conn.close()
                 await message.channel.send("Usunięto 4k <:proste:674360939134320640>")
 
-            elif msg.content == "dawid":
+            elif msg.content.lower() == "dawid":
                 c.execute("UPDATE wynik SET czterykille=czterykille-1 WHERE id_wyniku=3 AND czterykille>0")
                 conn.commit()
                 conn.close()
                 await message.channel.send("Usunięto 4k <:proste:674360939134320640>")
 
-            elif msg.content == "jujan":
+            elif msg.content.lower() == "jujan" or msg.content.lower() == "radek":
                 c.execute("UPDATE wynik SET czterykille=czterykille-1 WHERE id_wyniku=4 AND czterykille>0")
                 conn.commit()
                 conn.close()
                 await message.channel.send("Usunięto 4k <:proste:674360939134320640>")
 
-            elif msg.content == "michał":
+            elif msg.content.lower() == "michał" or msg.content.lower() == "michal" or msg.content.lower() == "shir":
                 c.execute("UPDATE wynik SET czterykille=czterykille-1 WHERE id_wyniku=5 AND czterykille>0")
                 conn.commit()
                 conn.close()
@@ -157,6 +162,7 @@ async def on_message(message):
         else:
             print("error ace/4k")
 
+
     if message.content.startswith("^usunlose"):
         await message.channel.send("Z jakiej mapy usunąć lose:")
 
@@ -164,98 +170,98 @@ async def on_message(message):
             return message.author == m.author
 
         msg = await client.wait_for('message', check=check)
-        if msg.content == "Premiera":
+        if msg.content.startswith("Premiera"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=1 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=1 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(1)
             await message.channel.send("Usunięto przegraną z premiery <:proste:674360939134320640>")
-        elif msg.content == "Mirage":
+        elif msg.content.startswith("Mirage"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=2 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=2 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(2)
             await message.channel.send("Usunięto przegraną z mirage <:proste:674360939134320640>")
-        elif msg.content == "Nuke":
+        elif msg.content.startswith("Nuke"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=3 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=3 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(3)
             await message.channel.send("Usunięto przegraną z nuke <:proste:674360939134320640>")
-        elif msg.content == "Dust":
+        elif msg.content.startswith("Dust"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=4 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=4 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(4)
             await message.channel.send("Usunięto przegraną z dusta <:proste:674360939134320640>")
-        elif msg.content == "Overpass":
+        elif msg.content.startswith("Overpass"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=5 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=5 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(5)
             await message.channel.send("Usunięto przegraną z overpassa <:proste:674360939134320640>")
-        elif msg.content == "Vertigo":
+        elif msg.content.startswith("Vertigo"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=6 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=6 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(6)
             await message.channel.send("Usunięto przegraną z vertigo <:proste:674360939134320640>")
-        elif msg.content == "Ancient":
+        elif msg.content.startswith("Ancient"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=7 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=7 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(7)
             await message.channel.send("Usunięto przegraną z ancient <:proste:674360939134320640>")
-        elif msg.content == "Train":
+        elif msg.content.startswith("Train"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=8 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=8 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(8)
             await message.channel.send("Usunięto przegraną z traina <:proste:674360939134320640>")
-        elif msg.content == "Cache":
+        elif msg.content.startswith("Cache"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=9 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=9 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(9)
             await message.channel.send("Usunięto przegraną z cache <:proste:674360939134320640>")
-        elif msg.content == "Mocha":
+        elif msg.content.startswith("Mocha"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=10 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=10 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(10)
             await message.channel.send("Usunięto przegraną z mocha <:proste:674360939134320640>")
-        elif msg.content == "Office":
+        elif msg.content.startswith("Office"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=11 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=11 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(11)
             await message.channel.send("Usunięto przegraną z office <:proste:674360939134320640>")
-        elif msg.content == "Agency":
+        elif msg.content.startswith("Agency"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=12 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=12 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(12)
             await message.channel.send("Usunięto przegraną z agencji <:proste:674360939134320640>")
-        elif msg.content == "Inferno":
+        elif msg.content.startswith("Inferno"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=13 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=13 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(13)
             await message.channel.send("Usunięto przegraną z inferno <:proste:674360939134320640>")
-        elif msg.content == "Grind":
+        elif msg.content.startswith("Grind"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=14 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=14 AND liczba>0")
             conn.commit()
@@ -267,12 +273,11 @@ async def on_message(message):
 
     if message.content.startswith("^dodajstaty"):
         await message.channel.send("Kto zrobił ACE/4k ?")
-
         def check(m):
             return message.author == m.author
 
         msg = await client.wait_for('message', check=check)
-        if msg.content == "Wak".lower():
+        if msg.content.lower() == "wak" or msg.content.lower() == "vaq":
             await message.channel.send("ace czy 4k ?")
             msg = await client.wait_for('message', check=check)
             if msg.content == "ace":
@@ -288,7 +293,7 @@ async def on_message(message):
             else:
                 print("error dodajstaty user")
 
-        elif msg.content == "Marko".lower():
+        elif msg.content.lower() == "marko" or msg.content.lower() == "makro" or msg.content.lower() == "marek":
             await message.channel.send("ace czy 4k ?")
             msg = await client.wait_for('message', check=check)
             if msg.content == "ace":
@@ -304,7 +309,7 @@ async def on_message(message):
             else:
                 print("error dodajstaty user")
 
-        elif msg.content == "Dawid".lower():
+        elif msg.content.lower() == "dawid":
             await message.channel.send("ace czy 4k ?")
             msg = await client.wait_for('message', check=check)
             if msg.content == "ace":
@@ -320,7 +325,7 @@ async def on_message(message):
             else:
                 print("error dodajstaty user")
 
-        elif msg.content == "Jujan".lower():
+        elif msg.content.lower() == "jujan" or msg.content.lower() == "radek":
             await message.channel.send("ace czy 4k ?")
             msg = await client.wait_for('message', check=check)
             if msg.content == "ace":
@@ -336,7 +341,7 @@ async def on_message(message):
             else:
                 print("error dodaj staty user")
 
-        elif msg.content == "Michał".lower():
+        elif msg.content.lower() == "michał" or msg.content.lower() == "michal" or msg.content.lower() == "shir":
             await message.channel.send("ace czy 4k ?")
             msg = await client.wait_for('message', check=check)
             if msg.content == "ace":
@@ -354,6 +359,9 @@ async def on_message(message):
         else:
             print("error")
 
+
+
+
     if message.content.startswith("^michal"):
         with open("michal.png", "rb") as f:
             picture = discord.File(f)
@@ -366,98 +374,98 @@ async def on_message(message):
             return message.author == m.author
 
         msg = await client.wait_for('message', check=check)
-        if msg.content == "Premiera":
+        if msg.content.startswith("Premiera"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=1 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=1 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(1)
             await message.channel.send("Usunięto wygraną z premiery <:proste:674360939134320640>")
-        elif msg.content == "Mirage":
+        elif msg.content.startswith("Mirage"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=2 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=2 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(2)
             await message.channel.send("Usunięto wygraną z mirage <:proste:674360939134320640>")
-        elif msg.content == "Nuke":
+        elif msg.content.startswith("Nuke"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=3 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=3 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(3)
             await message.channel.send("Usunięto wygraną z nuke <:proste:674360939134320640>")
-        elif msg.content == "Dust":
+        elif msg.content.startswith("Dust"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=4 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=4 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(4)
             await message.channel.send("Usunięto wygraną z dusta <:proste:674360939134320640>")
-        elif msg.content == "Overpass":
+        elif msg.content.startswith("Overpass"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=5 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=5 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(5)
             await message.channel.send("Usunięto wygraną z overpassa <:proste:674360939134320640>")
-        elif msg.content == "Vertigo":
+        elif msg.content.startswith("Vertigo"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=6 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=6 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(6)
             await message.channel.send("Usunięto wygraną z vertigo <:proste:674360939134320640>")
-        elif msg.content == "Ancient":
+        elif msg.content.startswith("Ancient"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=7 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=7 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(7)
             await message.channel.send("Usunięto wygraną z ancient <:proste:674360939134320640>")
-        elif msg.content == "Train":
+        elif msg.content.startswith("Train"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=8 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=8 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(8)
             await message.channel.send("Usunięto wygraną z traina <:proste:674360939134320640>")
-        elif msg.content == "Cache":
+        elif msg.content.startswith("Cache"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=9 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=9 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(9)
             await message.channel.send("Usunięto wygraną z cache <:proste:674360939134320640>")
-        elif msg.content == "Mocha":
+        elif msg.content.startswith("Mocha"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=10 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=10 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(10)
             await message.channel.send("Usunięto wygraną z mocha <:proste:674360939134320640>")
-        elif msg.content == "Office":
+        elif msg.content.startswith("Office"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=11 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=11 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(11)
             await message.channel.send("Usunięto wygraną z office <:proste:674360939134320640>")
-        elif msg.content == "Agency":
+        elif msg.content.startswith("Agency"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=12 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=12 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(12)
             await message.channel.send("Usunięto wygraną z agencji <:proste:674360939134320640>")
-        elif msg.content == "Inferno":
+        elif msg.content.startswith("Inferno"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=13 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=13 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(13)
             await message.channel.send("Usunięto wygraną z inferno <:proste:674360939134320640>")
-        elif msg.content == "Grind":
+        elif msg.content.startswith("Grind"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=14 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=14 AND liczba>0")
             conn.commit()
@@ -474,85 +482,85 @@ async def on_message(message):
             return message.author == m.author
 
         msg = await client.wait_for('message', check=check)
-        if msg.content == "Premiera":
+        if msg.content.startswith("Premiera"):
             c.execute("UPDATE mapy SET draw=draw-1 WHERE id_mapy=1 AND draw>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=1 AND liczba>0")
             await message.channel.send("Usunięto remis z premiery <:proste:674360939134320640>")
             conn.commit()
             conn.close()
-        elif msg.content == "Mirage":
+        elif msg.content.startswith("Mirage"):
             c.execute("UPDATE mapy SET draw=draw-1 WHERE id_mapy=2 AND draw>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=2 AND liczba>0")
             await message.channel.send("Usunięto remis z mirage <:proste:674360939134320640>")
             conn.commit()
             conn.close()
-        elif msg.content == "Nuke":
+        elif msg.content.startswith("Nuke"):
             c.execute("UPDATE mapy SET draw=draw-1 WHERE id_mapy=3 AND draw>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=3 AND liczba>0")
             await message.channel.send("Usunięto remis z nuke <:proste:674360939134320640>")
             conn.commit()
             conn.close()
-        elif msg.content == "Dust":
+        elif msg.content.startswith("Dust"):
             c.execute("UPDATE mapy SET draw=draw-1 WHERE id_mapy=4 AND draw>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=4 AND liczba>0")
             await message.channel.send("Usunięto remis z dusta <:proste:674360939134320640>")
             conn.commit()
             conn.close()
-        elif msg.content == "Overpass":
+        elif msg.content.startswith("Overpass"):
             c.execute("UPDATE mapy SET draw=draw-1 WHERE id_mapy=5 AND draw>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=5 AND liczba>0")
             await message.channel.send("Usunięto remis z overpassa <:proste:674360939134320640>")
             conn.commit()
             conn.close()
-        elif msg.content == "Vertigo":
+        elif msg.content.startswith("Vertigo"):
             c.execute("UPDATE mapy SET draw=draw-1 WHERE id_mapy=6 AND draw>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=6 AND liczba>0")
             await message.channel.send("Usunięto remis z vertigo <:proste:674360939134320640>")
             conn.commit()
             conn.close()
-        elif msg.content == "Ancient":
+        elif msg.content.startswith("Ancient"):
             c.execute("UPDATE mapy SET draw=draw-1 WHERE id_mapy=7 AND draw>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=7 AND liczba>0")
             await message.channel.send("Usunięto remis z ancient <:proste:674360939134320640>")
             conn.commit()
             conn.close()
-        elif msg.content == "Train":
+        elif msg.content.startswith("Train"):
             c.execute("UPDATE mapy SET draw=draw-1 WHERE id_mapy=8 AND draw>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=8 AND liczba>0")
             await message.channel.send("Usunięto remis z traina <:proste:674360939134320640>")
             conn.commit()
             conn.close()
-        elif msg.content == "Cache":
+        elif msg.content.startswith("Cache"):
             c.execute("UPDATE mapy SET draw=draw-1 WHERE id_mapy=9 AND draw>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=9 AND liczba>0")
             await message.channel.send("Usunięto remis z cache <:proste:674360939134320640>")
             conn.commit()
             conn.close()
-        elif msg.content == "Mocha":
+        elif msg.content.startswith("Mocha"):
             c.execute("UPDATE mapy SET draw=draw-1 WHERE id_mapy=10 AND draw>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=10 AND liczba>0")
             await message.channel.send("Usunięto remis z mocha <:proste:674360939134320640>")
             conn.commit()
             conn.close()
-        elif msg.content == "Office":
+        elif msg.content.startswith("Office"):
             c.execute("UPDATE mapy SET draw=draw-1 WHERE id_mapy=11 AND draw>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=11 AND liczba>0")
             await message.channel.send("Usunięto remis z office <:proste:674360939134320640>")
             conn.commit()
             conn.close()
-        elif msg.content == "Agency":
+        elif msg.content.startswith("Agency"):
             c.execute("UPDATE mapy SET draw=draw-1 WHERE id_mapy=12 AND draw>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=12 AND liczba>0")
             await message.channel.send("Usunięto remis z agencji <:proste:674360939134320640>")
             conn.commit()
             conn.close()
-        elif msg.content == "Inferno":
+        elif msg.content.startswith("Inferno"):
             c.execute("UPDATE mapy SET draw=draw-1 WHERE id_mapy=13 AND draw>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=13 AND liczba>0")
             await message.channel.send("Usunięto remis z inferno <:proste:674360939134320640>")
             conn.commit()
             conn.close()
-        elif msg.content == "Grind":
+        elif msg.content.startswith("Grind"):
             c.execute("UPDATE mapy SET draw=draw-1 WHERE id_mapy=14 AND draw>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=14 AND liczba>0")
             await message.channel.send("Usunięto remis z grinda <:proste:674360939134320640>")
@@ -1134,6 +1142,23 @@ async def on_message(message):
                     conn.close()
                 else:
                     print("error reaction draw")
+            # if str(reaction.emoji) == "🟣":
+            #     await z.delete()
+            #     u = await message.channel.send("Brawo jujen ACE czy 4K??")
+            #     await u.add_reaction("🅰️")
+            #     await u.add_reaction("4️⃣")
+            #     if str(reaction.emoji) == "🅰️":
+            #         c.execute("UPDATE wynik SET ace=ace+1 WHERE id_wyniku=4")
+            #         await message.channel.send("Brawo jujen ace :O  <:pogchamp4:809889459944161290>")
+            #         conn.commit()
+            #         conn.close()
+            #     if str(reaction.emoji) == "4️⃣":
+            #         c.execute("UPDATE wynik SET czterykille=czterykille+1 WHERE id_wyniku=4")
+            #         await message.channel.send("Brawo jujen 4k  ;)  <:pogchamp4:809889459944161290>")
+            #         conn.commit()
+            #         conn.close()
+
+
 
 
 client.run(TOKEN)
