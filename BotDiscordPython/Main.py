@@ -1,8 +1,8 @@
 import random
 import sqlite3
 import discord
-from Robienie_Obrazka import obrazek, statystyki_graczy
-from win_lose_ratio import obliczanie_win_lose
+from Robienie_Obrazka import obrazek, statystyki_graczy, stare_mapy
+from win_lose_ratio import obliczanie_win_lose, obliczanie_stare_win_lose
 
 TOKEN = None
 
@@ -41,9 +41,10 @@ async def on_message(message):
 
     if message.content.startswith("^komendy"):
         await message.channel.send("Dostępne komendy to: ^meczmejker, ^staty (już działa!!!), ^premiera, ^mirage, " +
-                                   "^nuke, ^dust, ^overpass, ^vertigo, ^ancient, ^train, ^cache, ^mocha, ^office, " +
-                                   "^agency, ^inferno, ^grind, ^prmwin, ^prmlose, ^prmdraw, ^usunwin, " +
-                                   "^usunlose, ^usundraw, ^dodajstaty, ^usunstaty, ^statygraczy")
+                                   "^nuke, ^dust, ^overpass, ^vertigo, ^ancient, ^train, ^cache, ^basalt, ^office, " +
+                                   "^agency, ^inferno, ^insertion2, ^prmwin, ^prmlose, ^prmdraw, ^usunwin, " +
+                                   "^usunlose, ^usundraw, ^dodajstaty, ^usunstaty, ^statygraczy, ^odśwież , ^starestaty"
+                                   + "")
         await message.channel.send("<:PeepoGlad:815276556863275028>")
 
     if message.content.startswith('^meczmejker'):
@@ -63,6 +64,12 @@ async def on_message(message):
             picture = discord.File(f)
             await message.channel.send(file=picture)
 
+    if message.content == "^starestaty":
+        stare_mapy()
+        with open("statystyki_stare_gotowe.png", "rb") as f:
+            picture = discord.File(f)
+            await message.channel.send(file=picture)
+
     if message.content == "^statygraczy":
         statystyki_graczy()
         with open("staty_graczy_gotowe.png", "rb") as f:
@@ -70,9 +77,22 @@ async def on_message(message):
             await message.channel.send(file=picture)
 
     if message.content == "^odswiez" or message.content == "^odśwież" or message.content == "^odświez" or message.content == "^odswież":
+        for z in range(1, 3):
+            obliczanie_stare_win_lose(z)
+
         for x in range(1, 15):
-            obliczanie_win_lose(x)
-        await message.channel.send("Odświeżono win/lose ratio  <:pogchamp4:809889459944161290>")
+            c.execute("SELECT liczba FROM mapy WHERE id_mapy=?", (x, ))
+            l = str(c.fetchone()).replace("(", "").replace(",", "").replace(")", "").replace("'", "")
+            c.execute("SELECT nazwa FROM mapy WHERE id_mapy=?", (x, ))
+            o = str(c.fetchone()).replace("(", "").replace(",", "").replace(")", "").replace("'", "")
+            if int(l) > 0:
+                obliczanie_win_lose(x)
+            else:
+                await message.channel.send("Nie odświeżono mapy o nazwie " + o + " poniewaz liczba gier wynosi 0")
+
+        await message.channel.send("Odświeżono win/lose ratio na reszcie map  <:pogchamp4:809889459944161290>")
+        conn.commit()
+        conn.close()
 
 
     if message.content.startswith("^usunstaty"):
@@ -233,13 +253,13 @@ async def on_message(message):
             conn.close()
             obliczanie_win_lose(9)
             await message.channel.send("Usunięto przegraną z cache <:proste:674360939134320640>")
-        elif msg.content.startswith("Mocha"):
+        elif msg.content.startswith("Insertion2") or msg.content.startswith("Insertion"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=10 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=10 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(10)
-            await message.channel.send("Usunięto przegraną z mocha <:proste:674360939134320640>")
+            await message.channel.send("Usunięto przegraną z insertion2 <:proste:674360939134320640>")
         elif msg.content.startswith("Office"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=11 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=11 AND liczba>0")
@@ -261,13 +281,13 @@ async def on_message(message):
             conn.close()
             obliczanie_win_lose(13)
             await message.channel.send("Usunięto przegraną z inferno <:proste:674360939134320640>")
-        elif msg.content.startswith("Grind"):
+        elif msg.content.startswith("Basalt"):
             c.execute("UPDATE mapy SET lose=lose-1 WHERE id_mapy=14 AND lose>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=14 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(14)
-            await message.channel.send("Usunięto przegraną z grinda <:proste:674360939134320640>")
+            await message.channel.send("Usunięto przegraną z basalt <:proste:674360939134320640>")
         else:
             print("error usunlose")
 
@@ -437,13 +457,13 @@ async def on_message(message):
             conn.close()
             obliczanie_win_lose(9)
             await message.channel.send("Usunięto wygraną z cache <:proste:674360939134320640>")
-        elif msg.content.startswith("Mocha"):
+        elif msg.content.startswith("Insertion") or msg.content.startswith("Insertion2"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=10 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=10 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(10)
-            await message.channel.send("Usunięto wygraną z mocha <:proste:674360939134320640>")
+            await message.channel.send("Usunięto wygraną z insertion2 <:proste:674360939134320640>")
         elif msg.content.startswith("Office"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=11 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=11 AND liczba>0")
@@ -465,13 +485,13 @@ async def on_message(message):
             conn.close()
             obliczanie_win_lose(13)
             await message.channel.send("Usunięto wygraną z inferno <:proste:674360939134320640>")
-        elif msg.content.startswith("Grind"):
+        elif msg.content.startswith("Basalt"):
             c.execute("UPDATE mapy SET win=win-1 WHERE id_mapy=14 AND win>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=14 AND liczba>0")
             conn.commit()
             conn.close()
             obliczanie_win_lose(14)
-            await message.channel.send("Usunięto wygraną z grinda <:proste:674360939134320640>")
+            await message.channel.send("Usunięto wygraną z basalt <:proste:674360939134320640>")
         else:
             print("error usunwin")
 
@@ -536,10 +556,10 @@ async def on_message(message):
             await message.channel.send("Usunięto remis z cache <:proste:674360939134320640>")
             conn.commit()
             conn.close()
-        elif msg.content.startswith("Mocha"):
+        elif msg.content.startswith("Insertion") or msg.content.startswith("Insertion2"):
             c.execute("UPDATE mapy SET draw=draw-1 WHERE id_mapy=10 AND draw>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=10 AND liczba>0")
-            await message.channel.send("Usunięto remis z mocha <:proste:674360939134320640>")
+            await message.channel.send("Usunięto remis z insertion2 <:proste:674360939134320640>")
             conn.commit()
             conn.close()
         elif msg.content.startswith("Office"):
@@ -560,10 +580,10 @@ async def on_message(message):
             await message.channel.send("Usunięto remis z inferno <:proste:674360939134320640>")
             conn.commit()
             conn.close()
-        elif msg.content.startswith("Grind"):
+        elif msg.content.startswith("Basalt"):
             c.execute("UPDATE mapy SET draw=draw-1 WHERE id_mapy=14 AND draw>0")
             c.execute("UPDATE mapy SET liczba=liczba-1 WHERE id_mapy=14 AND liczba>0")
-            await message.channel.send("Usunięto remis z grinda <:proste:674360939134320640>")
+            await message.channel.send("Usunięto remis z basalt <:proste:674360939134320640>")
             conn.commit()
             conn.close()
         else:
@@ -741,20 +761,20 @@ async def on_message(message):
         conn.commit()
         conn.close()
 
-    if message.content.startswith('^mocha'):
+    if message.content.startswith('^insertion2'):
         c.execute("SELECT liczba FROM mapy WHERE id_mapy=10")
-        moc = str(c.fetchone()).replace("(", "").replace(",", "").replace(")", "")
-        if int(moc) == 1:
+        ins = str(c.fetchone()).replace("(", "").replace(",", "").replace(")", "")
+        if int(ins) == 1:
             booba = "raz"
         else:
             booba = "razy"
         c.execute("UPDATE mapy SET liczba=liczba+1 WHERE id_mapy=10")
-        moc = await message.channel.send(
-            "Dzisiaj Mocha " + "<@&391947653618991106>" + " " + "<:pogchamp4:809889459944161290>"
-            + ", mape gralismy: " + moc + " " + booba + " <:PeepoGlad:815276556863275028>")
-        await moc.add_reaction("<:plus1:278220303639904257>")
-        await moc.add_reaction("<:minus1:278220095447367681>")
-        await moc.add_reaction("✏️")
+        ins = await message.channel.send(
+            "Dzisiaj Insertion2 " + "<@&391947653618991106>" + " " + "<:pogchamp4:809889459944161290>"
+            + ", mape gralismy: " + ins + " " + booba + " <:PeepoGlad:815276556863275028>")
+        await ins.add_reaction("<:plus1:278220303639904257>")
+        await ins.add_reaction("<:minus1:278220095447367681>")
+        await ins.add_reaction("✏️")
         conn.commit()
         conn.close()
 
@@ -809,7 +829,7 @@ async def on_message(message):
         conn.commit()
         conn.close()
 
-    if message.content.startswith('^grind'):
+    if message.content.startswith('^basalt'):
         c.execute("SELECT liczba FROM mapy WHERE id_mapy=14")
         grd = str(c.fetchone()).replace("(", "").replace(",", "").replace(")", "")
         if int(grd) == 1:
@@ -818,11 +838,46 @@ async def on_message(message):
             booba = "razy"
         c.execute("UPDATE mapy SET liczba=liczba+1 WHERE id_mapy=14")
         grd = await message.channel.send(
-            "Dzisiaj Grind " + "<@&391947653618991106>" + " " + "<:pogchamp4:809889459944161290>"
+            "Dzisiaj Basalt " + "<@&391947653618991106>" + " " + "<:pogchamp4:809889459944161290>"
             + ", mape gralismy: " + grd + " " + booba + " <:PeepoGlad:815276556863275028>")
         await grd.add_reaction("<:plus1:278220303639904257>")
         await grd.add_reaction("<:minus1:278220095447367681>")
         await grd.add_reaction("✏️")
+        conn.commit()
+        conn.close()
+
+
+    if message.content.startswith('^mocha'):
+        c.execute("SELECT liczba_starej FROM stare_mapy WHERE id_starej=1")
+        moc = str(c.fetchone()).replace("(", "").replace(",", "").replace(")", "")
+        if int(moc) == 1:
+            booba = "raz"
+        else:
+            booba = "razy"
+        c.execute("UPDATE stare_mapy SET liczba_starej=liczba_starej+1 WHERE id_starej=1")
+        moc = await message.channel.send(
+            "Dzisiaj Mocha " + "<@&391947653618991106>" + " " + "<:pogchamp4:809889459944161290>"
+            + ", mape gralismy: " + moc + " " + booba + " <:PeepoGlad:815276556863275028>")
+        await moc.add_reaction("<:plus1:278220303639904257>")
+        await moc.add_reaction("<:minus1:278220095447367681>")
+        await moc.add_reaction("✏️")
+        conn.commit()
+        conn.close()
+
+    if message.content.startswith('^grind'):
+        c.execute("SELECT liczba_starej FROM stare_mapy WHERE id_starej=2")
+        grn = str(c.fetchone()).replace("(", "").replace(",", "").replace(")", "")
+        if int(grn) == 1:
+            booba = "raz"
+        else:
+            booba = "razy"
+        c.execute("UPDATE stare_mapy SET liczba_starej=liczba_starej+1 WHERE id_starej=2")
+        grn = await message.channel.send(
+            "Dzisiaj Grind " + "<@&391947653618991106>" + " " + "<:pogchamp4:809889459944161290>"
+            + ", mape gralismy: " + grn + " " + booba + " <:PeepoGlad:815276556863275028>")
+        await grn.add_reaction("<:plus1:278220303639904257>")
+        await grn.add_reaction("<:minus1:278220095447367681>")
+        await grn.add_reaction("✏️")
         conn.commit()
         conn.close()
 
@@ -904,12 +959,12 @@ async def on_message(message):
                     await cch.delete()
                     await message.channel.send("Wygranko: Cache " + "<:proste:674360939134320640>")
                     obliczanie_win_lose(9)
-                elif message.content.startswith('^mocha'):
+                elif message.content.startswith('^insertion2'):
                     c.execute("UPDATE mapy SET win=win+1 WHERE id_mapy=10")
                     conn.commit()
                     conn.close()
                     await moc.delete()
-                    await message.channel.send("Wygranko: Mocha " + "<:proste:674360939134320640>")
+                    await message.channel.send("Wygranko: Insertion2 " + "<:proste:674360939134320640>")
                     obliczanie_win_lose(10)
                 elif message.content.startswith('^office'):
                     c.execute("UPDATE mapy SET win=win+1 WHERE id_mapy=11")
@@ -932,13 +987,27 @@ async def on_message(message):
                     await inf.delete()
                     await message.channel.send("Wygranko: Inferno " + "<:proste:674360939134320640>")
                     obliczanie_win_lose(13)
-                elif message.content.startswith('^grind'):
+                elif message.content.startswith('^basalt'):
                     c.execute("UPDATE mapy SET win=win+1 WHERE id_mapy=14")
                     conn.commit()
                     conn.close()
                     await grd.delete()
-                    await message.channel.send("Wygranko: Grind " + "<:proste:674360939134320640>")
+                    await message.channel.send("Wygranko: Basalt " + "<:proste:674360939134320640>")
                     obliczanie_win_lose(14)
+                elif message.content.startswith('^mocha'):
+                    c.execute("UPDATE mapy SET win_starej=win_starej+1 WHERE id_starej=1")
+                    conn.commit()
+                    conn.close()
+                    await grd.delete()
+                    await message.channel.send("Wygranko: Mocha " + "<:proste:674360939134320640>")
+                    obliczanie_stare_win_lose(1)
+                elif message.content.startswith('^grind'):
+                    c.execute("UPDATE mapy SET win_starej=win_starej+1 WHERE id_starej=2")
+                    conn.commit()
+                    conn.close()
+                    await grd.delete()
+                    await message.channel.send("Wygranko: Grind " + "<:proste:674360939134320640>")
+                    obliczanie_stare_win_lose(2)
                 else:
                     print("error raction +1")
             if str(reaction.emoji) == "<:minus1:278220095447367681>":
@@ -1012,12 +1081,12 @@ async def on_message(message):
                     await cch.delete()
                     await message.channel.send("Przegranko: Cache " + "<:Pepe:236556210508136458>")
                     obliczanie_win_lose(9)
-                elif message.content.startswith('^mocha'):
+                elif message.content.startswith('^insertion2'):
                     c.execute("UPDATE mapy SET lose=lose+1 WHERE id_mapy=10")
                     conn.commit()
                     conn.close()
                     await moc.delete()
-                    await message.channel.send("Przegranko: Mocha " + "<:Pepe:236556210508136458>")
+                    await message.channel.send("Przegranko: Insertion2 " + "<:Pepe:236556210508136458>")
                     obliczanie_win_lose(10)
                 elif message.content.startswith('^office'):
                     c.execute("UPDATE mapy SET lose=lose+1 WHERE id_mapy=11")
@@ -1040,13 +1109,27 @@ async def on_message(message):
                     await inf.delete()
                     await message.channel.send("Przegranko: Inferno " + "<:Pepe:236556210508136458>")
                     obliczanie_win_lose(13)
-                elif message.content.startswith('^grind'):
+                elif message.content.startswith('^basalt'):
                     c.execute("UPDATE mapy SET lose=lose+1 WHERE id_mapy=14")
                     conn.commit()
                     conn.close()
                     await grd.delete()
-                    await message.channel.send("Przegranko: Grind " + "<:Pepe:236556210508136458>")
+                    await message.channel.send("Przegranko: Basalt " + "<:Pepe:236556210508136458>")
                     obliczanie_win_lose(14)
+                elif message.content.startswith('^mocha'):
+                    c.execute("UPDATE mapy SET lose_starej=lose_starej+1 WHERE id_starej=1")
+                    conn.commit()
+                    conn.close()
+                    await grd.delete()
+                    await message.channel.send("Przegranko: Mocha " + "<:Pepe:236556210508136458>")
+                    obliczanie_stare_win_lose(1)
+                elif message.content.startswith('^grind'):
+                    c.execute("UPDATE mapy SET lose_starej=lose_starej+1 WHERE id_starej=2")
+                    conn.commit()
+                    conn.close()
+                    await grd.delete()
+                    await message.channel.send("Przegranko: Grind " + "<:Pepe:236556210508136458>")
+                    obliczanie_stare_win_lose(2)
                 else:
                     print("error reaction -1")
             if str(reaction.emoji) == "✏️":
@@ -1110,10 +1193,10 @@ async def on_message(message):
                     await message.channel.send("Remis: Cache " + "<:Omegalul:428861885111205888>")
                     conn.commit()
                     conn.close()
-                elif message.content.startswith('^mocha'):
+                elif message.content.startswith('^insertion2'):
                     c.execute("UPDATE mapy SET draw=draw+1 WHERE id_mapy=10")
                     await moc.delete()
-                    await message.channel.send("Remis: Mocha " + "<:Omegalul:428861885111205888>")
+                    await message.channel.send("Remis: Insertion2 " + "<:Omegalul:428861885111205888>")
                     conn.commit()
                     conn.close()
                 elif message.content.startswith('^office'):
@@ -1134,30 +1217,26 @@ async def on_message(message):
                     await message.channel.send("Remis: Inferno " + "<:Omegalul:428861885111205888>")
                     conn.commit()
                     conn.close()
-                elif message.content.startswith('^grind'):
+                elif message.content.startswith('^basalt'):
                     c.execute("UPDATE mapy SET draw=draw+1 WHERE id_mapy=14")
                     await grd.delete()
-                    await message.channel.send("Remis: Grind " + "<:Omegalul:428861885111205888>")
+                    await message.channel.send("Remis: Basalt " + "<:Omegalul:428861885111205888>")
                     conn.commit()
                     conn.close()
+                elif message.content.startswith('^mocha'):
+                    c.execute("UPDATE mapy SET lose_starej=lose_starej+1 WHERE id_starej=1")
+                    conn.commit()
+                    conn.close()
+                    await grd.delete()
+                    await message.channel.send("Remis: Mocha " + "<:Omegalul:428861885111205888>")
+                elif message.content.startswith('^grind'):
+                    c.execute("UPDATE mapy SET lose_starej=lose_starej+1 WHERE id_starej=2")
+                    conn.commit()
+                    conn.close()
+                    await grd.delete()
+                    await message.channel.send("Remis: Grind " + "<:Omegalul:428861885111205888>")
                 else:
                     print("error reaction draw")
-            # if str(reaction.emoji) == "🟣":
-            #     await z.delete()
-            #     u = await message.channel.send("Brawo jujen ACE czy 4K??")
-            #     await u.add_reaction("🅰️")
-            #     await u.add_reaction("4️⃣")
-            #     if str(reaction.emoji) == "🅰️":
-            #         c.execute("UPDATE wynik SET ace=ace+1 WHERE id_wyniku=4")
-            #         await message.channel.send("Brawo jujen ace :O  <:pogchamp4:809889459944161290>")
-            #         conn.commit()
-            #         conn.close()
-            #     if str(reaction.emoji) == "4️⃣":
-            #         c.execute("UPDATE wynik SET czterykille=czterykille+1 WHERE id_wyniku=4")
-            #         await message.channel.send("Brawo jujen 4k  ;)  <:pogchamp4:809889459944161290>")
-            #         conn.commit()
-            #         conn.close()
-
 
 
 
