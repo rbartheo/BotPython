@@ -48,6 +48,32 @@ def obrazek():
         x = str(winyilosy).replace("(", "").replace(",", "").replace(")", "").replace("'", "")
         winy_lose.append(x)
 
+    liczbyrazem = []
+    for i in liczby:
+        liczbyrazem.append(int(i))
+    sumaliczby = sum(liczbyrazem[1:14])
+
+    wygranerazem = []
+    for i in winy:
+        wygranerazem.append(int(i))
+    sumawiny = sum(wygranerazem[1:14])
+
+    loserazem = []
+    for i in lose:
+        loserazem.append(int(i))
+    sumalose = sum(loserazem[1:14])
+
+    drawyrazem = []
+    for i in drawy:
+        drawyrazem.append(int(i))
+    sumadrawy = sum(drawyrazem[1:14])
+
+    winloserazem = []
+    for i in winy_lose:
+        winloserazem.append(int(i))
+    sumawinlose = sum(winloserazem[1:14])
+
+
     w, h = font.getsize(str(mapy[:1]))
     draw = ImageDraw.Draw(img)
     draw.text(((200 - w) / 2, (70 - h) / 2), "Nazwa mapy", font=font, fill="white")
@@ -79,6 +105,7 @@ def obrazek():
               font=font2, fill="white")
     draw.text(((200 - w) / 2, (1130 - h) / 2), str(mapy[13]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
+    draw.text(((200 - w) / 2, (1210 - h) / 2), "Razem", font=font2, fill="white")
 
     draw.text(((650 - w) / 2, (75 - h) / 2), "Liczba gier", font=font, fill="white")
     draw.text(((780 - w) / 2, (200 - h) / 2), str(liczby[0]).replace("[", "").replace("'", "").replace("]", ""),
@@ -109,6 +136,7 @@ def obrazek():
               font=font2, fill="white")
     draw.text(((780 - w) / 2, (1130 - h) / 2), str(liczby[13]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
+    draw.text(((780 - w) / 2, (1210 - h) / 2), str(sumaliczby), font=font2, fill="white")
 
     draw.text(((1050 - w) / 2, (75 - h) / 2), "Wygrane", font=font, fill="white")
     draw.text(((1160 - w) / 2, (200 - h) / 2), str(winy[0]).replace("[", "").replace("'", "").replace("]", ""),
@@ -139,6 +167,7 @@ def obrazek():
               font=font2, fill="white")
     draw.text(((1160 - w) / 2, (1130 - h) / 2), str(winy[13]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
+    draw.text(((1160 - w) / 2, (1210 - h) / 2), str(sumawiny), font=font2, fill="white")
 
     draw.text(((1400 - w) / 2, (75 - h) / 2), "Przegrane", font=font, fill="white")
     draw.text(((1510 - w) / 2, (200 - h) / 2), str(lose[0]).replace("[", "").replace("'", "").replace("]", ""),
@@ -169,6 +198,7 @@ def obrazek():
               font=font2, fill="white")
     draw.text(((1510 - w) / 2, (1130 - h) / 2), str(lose[13]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
+    draw.text(((1510 - w) / 2, (1210 - h) / 2), str(sumalose), font=font2, fill="white")
 
     draw.text(((1800 - w) / 2, (75 - h) / 2), "Remisy", font=font, fill="white")
     draw.text(((1900 - w) / 2, (200 - h) / 2), str(drawy[0]).replace("[", "").replace("'", "").replace("]", ""),
@@ -199,6 +229,7 @@ def obrazek():
               font=font2, fill="white")
     draw.text(((1900 - w) / 2, (1130 - h) / 2), str(drawy[13]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
+    draw.text(((1900 - w) / 2, (1210 - h) / 2), str(sumadrawy), font=font2, fill="white")
 
     draw.text(((2150 - w) / 2, (75 - h) / 2), "Win/Lose", font=font, fill="white")
     draw.text(((2240 - w) / 2, (200 - h) / 2),
@@ -243,7 +274,9 @@ def obrazek():
     draw.text(((2240 - w) / 2, (1130 - h) / 2),
               (str(winy_lose[13]).replace("[", "").replace("'", "").replace("]", "") + " %"),
               font=font2, fill="white")
-
+    draw.text(((2240 - w) / 2, (1210 - h) / 2),
+              (str(int(sumawinlose/13))+ " %"),
+              font=font2, fill="white")
     img.save("statystyki.png")
 
     conn.commit()
@@ -294,6 +327,8 @@ def statystyki_graczy():
               font=font2, fill="white")
     draw.text(((200 - w) / 2, (600 - h) / 2), str(nazwy_graczy[4]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
+    draw.text(((200 - w) / 2, (700 - h) / 2), str(nazwy_graczy[5]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
 
     draw.text(((605 - w) / 2, (65 - h) / 2), "4K", font=font, fill="white")
     draw.text(((630 - w) / 2, (197 - h) / 2), str(fourky[0]).replace("[", "").replace("'", "").replace("]", ""),
@@ -306,6 +341,8 @@ def statystyki_graczy():
               font=font2, fill="white")
     draw.text(((630 - w) / 2, (597 - h) / 2), str(fourky[4]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
+    draw.text(((630 - w) / 2, (697 - h) / 2), str(fourky[5]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
 
     draw.text(((1000 - w) / 2, (65 - h) / 2), "ACE", font=font, fill="white")
     draw.text(((1050 - w) / 2, (195 - h) / 2), str(acey[0]).replace("[", "").replace("'", "").replace("]", ""),
@@ -317,6 +354,8 @@ def statystyki_graczy():
     draw.text(((1050 - w) / 2, (495 - h) / 2), str(acey[3]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
     draw.text(((1050 - w) / 2, (595 - h) / 2), str(acey[4]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((1050 - w) / 2, (695 - h) / 2), str(acey[5]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
     img.save("staty_graczy_gotowe.png")
 
@@ -416,4 +455,4 @@ def stare_mapy():
     conn.commit()
     conn.close()
 
-
+obrazek()
