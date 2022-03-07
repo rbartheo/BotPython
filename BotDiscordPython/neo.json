@@ -1,0 +1,25 @@
+{
+    "response": {
+        "players": [
+            {
+                "steamid": "76561197961332539",
+                "communityvisibilitystate": 3,
+                "profilestate": 1,
+                "personaname": "neło",
+                "profileurl": "https://steamcommunity.com/id/garywaldek/",
+                "avatar": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c1/c1c7611d60c91d5160d8d63232d34fd9578c5ef1.jpg",
+                "avatarmedium": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c1/c1c7611d60c91d5160d8d63232d34fd9578c5ef1_medium.jpg",
+                "avatarfull": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c1/c1c7611d60c91d5160d8d63232d34fd9578c5ef1_full.jpg",
+                "avatarhash": "c1c7611d60c91d5160d8d63232d34fd9578c5ef1",
+                "personastate": 0,
+                "realname": "Filip Kubski",
+                "primaryclanid": "103582791464822807",
+                "timecreated": 1064397528,
+                "personastateflags": 0,
+                "loccountrycode": "PL",
+                "locstatecode": "67",
+                "loccityid": 35926
+            }
+        ]
+    }
+}

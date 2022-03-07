@@ -231,7 +231,7 @@ def obrazek():
               font=font2, fill="white")
     draw.text(((1900 - w) / 2, (1210 - h) / 2), str(sumadrawy), font=font2, fill="white")
 
-    draw.text(((2150 - w) / 2, (75 - h) / 2), "Win/Lose", font=font, fill="white")
+    draw.text(((2150 - w) / 2, (75 - h) / 2), "Win rate", font=font, fill="white")
     draw.text(((2240 - w) / 2, (200 - h) / 2),
               str(winy_lose[0]).replace("[", "").replace("'", "").replace("]", "") + " %",
               font=font2, fill="white")
@@ -275,10 +275,8 @@ def obrazek():
               (str(winy_lose[13]).replace("[", "").replace("'", "").replace("]", "") + " %"),
               font=font2, fill="white")
     draw.text(((2240 - w) / 2, (1210 - h) / 2),
-              (str(int(sumawinlose/13))+ " %"),
-              font=font2, fill="white")
+              (str(int((sumawiny/sumaliczby)*100))+ " %"), font=font2, fill="white")
     img.save("statystyki.png")
-
     conn.commit()
     conn.close()
 
@@ -417,11 +415,19 @@ def stare_mapy():
               font=font2, fill="white")
     draw.text(((200 - w) / 2, (270 - h) / 2), str(mapy[1]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
+    draw.text(((180 - w) / 2, (350 - h) / 2), str(mapy[2]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((200 - w) / 2, (435 - h) / 2), str(mapy[3]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
 
     draw.text(((650 - w) / 2, (75 - h) / 2), "Liczba gier", font=font, fill="white")
     draw.text(((780 - w) / 2, (200 - h) / 2), str(liczby[0]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
     draw.text(((780 - w) / 2, (270 - h) / 2), str(liczby[1]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((760 - w) / 2, (350 - h) / 2), str(liczby[2]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((780 - w) / 2, (435 - h) / 2), str(liczby[3]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
 
     draw.text(((1050 - w) / 2, (75 - h) / 2), "Wygrane", font=font, fill="white")
@@ -429,17 +435,29 @@ def stare_mapy():
               font=font2, fill="white")
     draw.text(((1160 - w) / 2, (270 - h) / 2), str(winy[1]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
+    draw.text(((1140 - w) / 2, (350 - h) / 2), str(winy[2]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((1160 - w) / 2, (435 - h) / 2), str(winy[3]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
 
     draw.text(((1400 - w) / 2, (75 - h) / 2), "Przegrane", font=font, fill="white")
     draw.text(((1510 - w) / 2, (200 - h) / 2), str(lose[0]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
     draw.text(((1510 - w) / 2, (270 - h) / 2), str(lose[1]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
+    draw.text(((1500 - w) / 2, (350 - h) / 2), str(lose[2]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((1510 - w) / 2, (435 - h) / 2), str(lose[3]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
 
     draw.text(((1800 - w) / 2, (75 - h) / 2), "Remisy", font=font, fill="white")
     draw.text(((1900 - w) / 2, (200 - h) / 2), str(drawy[0]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
     draw.text(((1900 - w) / 2, (270 - h) / 2), str(drawy[1]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((1890 - w) / 2, (350 - h) / 2), str(drawy[2]).replace("[", "").replace("'", "").replace("]", ""),
+              font=font2, fill="white")
+    draw.text(((1900 - w) / 2, (435 - h) / 2), str(drawy[3]).replace("[", "").replace("'", "").replace("]", ""),
               font=font2, fill="white")
 
     draw.text(((2150 - w) / 2, (75 - h) / 2), "Win/Lose", font=font, fill="white")
@@ -448,6 +466,12 @@ def stare_mapy():
               font=font2, fill="white")
     draw.text(((2240 - w) / 2, (270 - h) / 2),
               str(winy_lose[1]).replace("[", "").replace("'", "").replace("]", "") + " %",
+              font=font2, fill="white")
+    draw.text(((2240 - w) / 2, (350 - h) / 2),
+              str(winy_lose[2]).replace("[", "").replace("'", "").replace("]", "") + " %",
+              font=font2, fill="white")
+    draw.text(((2240 - w) / 2, (435 - h) / 2),
+              str(winy_lose[3]).replace("[", "").replace("'", "").replace("]", "") + " %",
               font=font2, fill="white")
 
     img.save("statystyki_stare_gotowe.png")
